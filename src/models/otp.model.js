@@ -92,4 +92,47 @@ OTP.deleteAll = ({email})=>{
     })
 }
 
+OTP.otp_count = ({email})=>{
+    return new Promise( async(resolve, reject)=>{
+         let query = 'SELECT * FROM otp_count WHERE email = ?';
+
+    db.query(query, [email], (err, data)=>{
+        if(err){
+             return reject(null);
+        }
+        return resolve(data);
+    })
+    } )
+}
+
+OTP.add_otp_count = ({email})=>{
+    return new Promise( (resolve, reject)=>{
+//        var currentDate = new Date().toISOString().slice(0, 10);
+
+         let query = 'INSERT INTO otp_count (email, count) VALUES (?, ?)';
+   db.query(query, [email, 1], (err, data)=>{
+    if(err){
+       return reject(null);
+    }
+        return resolve('inserting successfully');
+   })
+    } )
+  
+}
+
+OTP.update_otp_count = (email, value = 1)=>{
+    console.log('parameter default ' + value);
+    return new Promise( (resolve, reject)=>{
+         let query = 'UPDATE otp_count SET count=? WHERE email = ?';
+   db.query(query, [value, email], (err, data)=>{
+    if(err){
+       return reject(null);
+    }
+        return resolve('inserting successfully');
+   })
+    } )
+  
+}
+
+
 module.exports = OTP
